@@ -34,6 +34,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=False,
         help_text='Apellido',
     )
+    #identification no deberia ser intfield
     identification = models.CharField(
         max_length=15,
         unique=True,
@@ -66,4 +67,4 @@ class User(AbstractBaseUser, PermissionsMixin):
         ordering = ('-id',)
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['name', 'last_name']
+    REQUIRED_FIELDS = ['name', 'lastname']

@@ -1,39 +1,46 @@
 from django.db import models
 from app.models.user import User
+from app.models.client import Client
+from app.models.payment_method import PaymentMethod
 
 class Sales(models.Model):
-    user = models.ForeignKey(
-        User,
+    
+    client = models.ForeignKey(
+        Client,
         on_delete=models.CASCADE,
-        verbose_name='id_username',
-        help_text='usuario asociando a la venta'
+        verbose_name='Cliente',
+        help_text='Cliente asociado a la venta'
     )
-    sale_date = models.DateTimeField(
+    
+    date = models.DateTimeField(
         auto_now_add=True,
-        verbose_name='fecha de la venta',
-        help_text='fecha de la venta'
+        verbose_name='Fecha',
+        help_text='Fecha de la venta'
     )
-    total_amount = models.DecimalField(
+    
+    total = models.DecimalField(
+        max_digits=10,
         decimal_places=2,
-        verbose_name='Monto total',
+        verbose_name='Total',
         help_text='Monto total de la venta'
     )
-    payment_method_id = models.ForeignKey(              
-        pay
+    
+    payment_method = models.ForeignKey(
+        PaymentMethod,
         on_delete=models.CASCADE,
-        max_length=50,
         verbose_name='Método de pago',
-        help_text='Método de pago utilizado')(
-        
+        help_text='Método de pago utilizado'
     )
-    is_completed = models.BooleanField(
-        default=True,
-        verbose_name='Completada',
-        help_text='Indica si la venta fue completada'
+    
+    seller = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Vendedor',
+        help_text='Usuario que realizó la venta'
     )
 
     class Meta:
         verbose_name = 'Venta'
         verbose_name_plural = 'Ventas'
         db_table = 'sales'
-        ordering = ('-sale_date',)
+        ordering = ('-date',)

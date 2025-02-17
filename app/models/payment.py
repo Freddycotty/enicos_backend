@@ -4,7 +4,6 @@ class PaymentMethod(models.Model):
     name = models.CharField(
         verbose_name='Nombre',
         max_length=255,
-        blank=False,
         help_text='Nombre del método de pago',
         unique=True
     )
@@ -26,3 +25,5 @@ class PaymentMethod(models.Model):
         verbose_name_plural = 'Metodos de pago'
         db_table = 'payment_methods'
         ordering = ('-id',)
+
+

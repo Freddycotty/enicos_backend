@@ -11,3 +11,6 @@ from app.serializers.sale import SalesSerializer
 from app.serializers.product_value import ProductValueSerializer
 from app.serializers.sale_detail import SaleDetailSerializer
 from app.serializers.inventory import InventorySerializer
+from app.serializers.base import (
+    IdentificationTypeSerializer
+)

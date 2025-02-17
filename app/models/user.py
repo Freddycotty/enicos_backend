@@ -67,4 +67,4 @@ class User(AbstractBaseUser, PermissionsMixin):
         ordering = ('-id',)
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['name', 'lastname']
+    REQUIRED_FIELDS = ['name', 'lastname', 'email']

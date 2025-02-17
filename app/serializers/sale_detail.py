@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from app.models.sale_detail import SaleDetail
+from app.models import SaleDetail
 
 class SaleDetailSerializer(serializers.ModelSerializer):
     class Meta:

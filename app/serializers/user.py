@@ -16,21 +16,20 @@ class UserSerializers(serializers.ModelSerializer):
             'phone',
             'username',
             'email',
-            'paswword',
+            'password',
             'is_active',
         )
-        read_only_fields = (
-            {"password":{
-                "write_only": True,
-            }}
-        )
+        extra_kwargs ={"password":{
+            "write_only": True,
+        }}
+        
 
 class UserTokenSerializer(UserSerializers):
     # menus = serializers.SerializerMethodField()
-    groups_permission = serializers.ReadOnlyField()
+    # groups_permission = serializers.ReadOnlyField()
     
     class Meta(UserSerializers.Meta):
-        fields = UserSerializers.Meta.fields + ('menus',)
+        fields = UserSerializers.Meta.fields
 
     # def get_menus(self, obj):
     #     user_groups = obj.groups.all()

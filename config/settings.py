@@ -167,8 +167,8 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'SISPROT System Documentation',  # Rename
-    'DESCRIPTION': 'SISPROT System API',  # Rename
+    'TITLE': 'ENICOS System Documentation',  # Rename
+    'DESCRIPTION': 'ENICOS System API',  # Rename
     'VERSION': "1.0.0",
     'SERVE_INCLUDE_SCHEMA': False,
     'SERVE_PUBLIC': True,

@@ -11,7 +11,9 @@ from app.models.category import (
     Category
 )
 from app.models.product import (
-    Product
+    Product,
+    ProductValue
+    
 )
 from app.models.sale import (
     Sales,
@@ -22,5 +24,6 @@ from app.models.inventory import (
     Suppiler,
 )
 from app.models.base import (
-    IdentificationType
+    IdentificationType,
+    BaseModel
 )

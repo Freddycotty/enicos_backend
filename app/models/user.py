@@ -68,3 +68,24 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['name', 'lastname', 'email']
+
+
+
+
+    @property
+    def full_name(self):
+        return self.name+" "+self.last_name
+
+    @property
+    def short_name(self):
+        name = self.name.split()[0]
+        last_name = self.last_name.split()[0] if self.last_name else ""
+        return name+" "+last_name
+
+    @property
+    def role(self):
+        # Devolver el primer grupo asignado al usuario
+        group = self.groups.first()
+        if group:
+            return group.name
+        return None  # Si no tiene grupo asignado, retornar None

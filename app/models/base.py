@@ -70,3 +70,39 @@ class IdentificationType(models.Model):
         ordering = ('name',)
 
 
+class Currency(models.Model):
+    code = models.CharField(
+        max_length=50
+    )
+    name = models.CharField(
+        max_length=50
+    )
+    status = models.BooleanField(default=True)
+    
+    class Meta:
+        verbose_name = 'currency'
+        verbose_name_plural = 'currencys'
+        db_table = 'currency'
+
+
+class CurrencyRate(models.Model):
+    currency = models.ForeignKey(
+        Currency,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name='dollar_rate',
+        help_text='Moneda',
+    )
+    date = models.DateField(
+        auto_now_add=True
+    )
+    amount = models.DecimalField(
+        max_digits=20,
+        decimal_places=2
+    )
+    status = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'currency rate'
+        verbose_name_plural = 'currency rate'
+        db_table = 'currency_rate'

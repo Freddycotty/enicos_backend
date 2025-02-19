@@ -7,19 +7,13 @@ from drf_spectacular.utils import (
     OpenApiParameter,
     inline_serializer,
 )
-
+from app.mixins import (
+    OptionalPaginationMixin,
+)
 
 
 # ruta para listar y crear tipos de identificacion
-class IdentificationTypeLC(generics.ListCreateAPIView):
-    """
-    Ruta para listar y crear tipos de identificaciones,
-    debe ser administrador (`is_staff` es `True`)
-    o tener el permiso:
-    - `view_identificationtype` para GET,
-    - `add_identificationtype` para POST,
-    """
-
+class IdentificationTypeLC(OptionalPaginationMixin, generics.ListCreateAPIView):
     queryset = IdentificationType.objects.filter(is_active=True)
     serializer_class = IdentificationTypeSerializer
     permission_classes = [
@@ -33,16 +27,28 @@ class IdentificationTypeLC(generics.ListCreateAPIView):
     }
 
 
-    @extend_schema(tags=["Base"], operation_id='Crear "Tipos de documentacion"')
+    @extend_schema(
+        tags=["Base"],
+        operation_id='Crear "Tipos de identificación"',
+        description="""Ruta para crear tipos de identificacion. Debe tener el permiso: `add_identificationtype` o ser administrador.""",
+    )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
 
+    @extend_schema(
+        tags=["Base"],
+        operation_id='Consultar "Tipos de identificación"',
+        description="""Ruta para listar tipos de identificacion. Debe tener el permiso: `view_identificationtype` o ser administrador.""",
+        parameters=[
+            OpenApiParameter(
+                name="no_pagination",
+                type=bool,
+                location=OpenApiParameter.QUERY,
+                required=False,
+                description="Si se establece en 'true' o '1', la respuesta no estará paginada."
+            )
+        ]
+    )
     @extend_schema(tags=["Base"], operation_id='Listar "Tipos de documentacion"')
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
-
-
-# ruta para consultar, editar y eliminar tipos de identificacion
-class IdentificationTypeLC(generics.RetrieveUpdateDestroyAPIView):
-    # TODO: Implementar la vista para consultar, editar y eliminar tipos de identificacion
-    pass

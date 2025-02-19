@@ -15,12 +15,12 @@ class Product(BaseModel):
         blank=True,
         help_text='Descripción detallada del producto'
     )
-    # TODO: Relation only with Subcategory
-    category = models.ForeignKey(
+    subcategory = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
         verbose_name='Categoría',
-        related_name='products'
+        related_name='products',
+        limit_choices_to={'parent__isnull': False}
     )
     created_at = models.DateTimeField(
         verbose_name='Fecha de creación',
@@ -35,9 +35,18 @@ class Product(BaseModel):
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
         ordering = ['name']
+        
+    @property
+    def current_value(self):
+        value = self.values.order_by('created_at').last()
+        data = {
+            'price': value.price,
+            'cost': value.cost
+        } if value else None
+        return data
 
 
-class ProductValue(models.Model):
+class ProductValue(BaseModel):
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -50,11 +59,12 @@ class ProductValue(models.Model):
         verbose_name='Costo',
         help_text='Costo del producto'
     )
-    product_id = models.ForeignKey(
+    product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
         verbose_name='Producto',
-        help_text='Producto asociado a este valor'
+        help_text='Producto asociado a este valor',
+        related_name='values'
     )
 
     class Meta:

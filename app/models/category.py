@@ -15,7 +15,7 @@ class Category(models.Model):
         blank=True,
         help_text='Descripción detallada de la categoría'
     )
-    parent_id = models.ForeignKey(
+    parent = models.ForeignKey(
         'self',
         verbose_name='Categoría padre',
         null=True,
@@ -34,10 +34,4 @@ class Category(models.Model):
         verbose_name_plural = 'Categorías'
         db_table = 'categories'
         ordering = ('name',)
-        unique_together = ['name', 'parent_id']
-        # constraints = [
-        #     models.UniqueConstraint(
-        #         fields=['name', 'parent_id'],
-        #         name='unique_category_name_per_parent'
-        #     )
-        # ]
+        unique_together = ['name', 'parent']

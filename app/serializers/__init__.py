@@ -14,8 +14,7 @@ from app.serializers.category import (
     )
 from app.serializers.product import (
     ProductSerializer,
-    ProductValueSerializer
-    )
+)
 from app.serializers.sale import (
     SalesSerializer,
     SaleDetailSerializer

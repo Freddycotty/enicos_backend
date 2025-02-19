@@ -5,8 +5,8 @@ from app.apis import (
 
 urlpatterns = [
     path(
-        'identification_type',
+        'identification_type/',
         IdentificationTypeLC.as_view(),
-        name='depot_gsoft'
+        name='identification_type'
     )
 ]

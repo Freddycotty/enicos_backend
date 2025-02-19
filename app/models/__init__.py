@@ -25,5 +25,7 @@ from app.models.inventory import (
 )
 from app.models.base import (
     IdentificationType,
-    BaseModel
+    BaseModel,
+    Currency,
+    CurrencyRate,
 )

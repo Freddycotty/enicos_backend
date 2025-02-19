@@ -32,13 +32,13 @@ class Sales(models.Model):
 
 
 class SaleDetail(BaseModel):
-    sale_id = models.ForeignKey(
+    sale = models.ForeignKey(
         Sales,
         on_delete=models.CASCADE,
         verbose_name='Venta',
         help_text='Venta asociada'
     )
-    product_value_id = models.ForeignKey(
+    product_value = models.ForeignKey(
         ProductValue,
         on_delete=models.CASCADE,
         verbose_name='Valor del Producto',

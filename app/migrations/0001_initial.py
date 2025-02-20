@@ -45,7 +45,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Suppiler',
+            name='Supplier',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(help_text='Nombre del proveedor', max_length=255, verbose_name='proveedores')),
@@ -56,7 +56,7 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Proveedor',
                 'verbose_name_plural': 'Proveedores',
-                'db_table': 'suppilers',
+                'db_table': 'Suppliers',
                 'ordering': ('-id',),
             },
         ),
@@ -134,7 +134,7 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')),
                 ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Fecha de actualización')),
                 ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='products', to='app.category', verbose_name='Categoría')),
-                ('supplier', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='products', to='app.suppiler', verbose_name='Proveedor')),
+                ('supplier', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='products', to='app.Supplier', verbose_name='Proveedor')),
             ],
             options={
                 'verbose_name': 'Producto',

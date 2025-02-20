@@ -1,11 +1,11 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 from app.apis import (
-    SuppilerMV,
+    SupplierMV,
 )
 router = DefaultRouter()
 
-router.register('', SuppilerMV, basename='suppliers')
+router.register('', SupplierMV, basename='suppliers')
 
 urlpatterns = []
 urlpatterns += router.urls

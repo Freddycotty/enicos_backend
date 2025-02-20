@@ -52,12 +52,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='historicalinventory',
             name='supplier',
-            field=models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.suppiler', verbose_name='Proveedor'),
+            field=models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.Supplier', verbose_name='Proveedor'),
         ),
         migrations.AddField(
             model_name='inventory',
             name='supplier',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='products', to='app.suppiler', verbose_name='Proveedor'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='products', to='app.Supplier', verbose_name='Proveedor'),
             preserve_default=False,
         ),
         migrations.AddField(

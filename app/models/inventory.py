@@ -3,7 +3,7 @@ from app.models.product import ProductValue
 from app.models.user import User
 from app.models.base import BaseModel
 
-class Suppiler(models.Model):
+class Supplier(models.Model):
     name = models.CharField(
         max_length=255,
         verbose_name='proveedores',
@@ -30,15 +30,15 @@ class Suppiler(models.Model):
     class Meta:
         verbose_name = 'Proveedor'
         verbose_name_plural = 'Proveedores'
-        db_table = 'suppilers'
+        db_table = 'Suppliers'
         ordering = ('-id',)
 
 
 class TransactionTypeInventory(models.Model):
     name = models.CharField(
         max_length=50,
-        verbose_name='Tipo de identificación',
-        help_text='Tipo de identificación'
+        verbose_name='Tipo de transacción',
+        help_text='Tipo de transacción'
     )
     is_active = models.BooleanField(default=True)
 
@@ -78,7 +78,7 @@ class Inventory(BaseModel):
         help_text='Estado de la transacción'
     )
     supplier = models.ForeignKey(
-        Suppiler,
+        Supplier,
         on_delete=models.CASCADE,
         verbose_name='Proveedor',
         related_name='products'

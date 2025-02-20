@@ -7,6 +7,6 @@ urlpatterns = [
     path(
         '',
         ProductLC.as_view(),
-        name='category'
+        name='product'
     ),
 ]

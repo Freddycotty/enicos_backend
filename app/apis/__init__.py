@@ -10,7 +10,7 @@ from app.apis.category import (
     CategoryLC,
 )
 from app.apis.supplier import (
-    SuppilerMV,
+    SupplierMV,
 )
 from app.apis.product import (
     ProductLC,

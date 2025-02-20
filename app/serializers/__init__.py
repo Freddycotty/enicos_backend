@@ -22,7 +22,7 @@ from app.serializers.sale import (
 
 from app.serializers.inventory import (
     InventorySerializer,
-    SuppilerSerializer
+    SupplierSerializer
     )
 from app.serializers.base import (
     IdentificationTypeSerializer

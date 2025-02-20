@@ -21,7 +21,7 @@ from app.models.sale import (
 )
 from app.models.inventory import (
     Inventory,
-    Suppiler,
+    Supplier,
 )
 from app.models.base import (
     IdentificationType,

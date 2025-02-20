@@ -8,8 +8,8 @@ from rest_framework import (
 from rest_framework.response import (
     Response,
 )
-from app.models import Suppiler
-from app.serializers import SuppilerSerializer
+from app.models import Supplier
+from app.serializers import SupplierSerializer
 from app.permissions import HasModelPermission
 from django_filters.rest_framework import (
     DjangoFilterBackend,
@@ -26,11 +26,11 @@ from app.mixins import (
 
 
 # listar, consultar, crear, editar y eliminar un proveedor
-class SuppilerMV(OptionalPaginationMixin, viewsets.ModelViewSet):
+class SupplierMV(OptionalPaginationMixin, viewsets.ModelViewSet):
     lookup_field = 'uid'
     lookup_url_kwarg = 'uid'
-    queryset = Suppiler.objects.all()
-    serializer_class = SuppilerSerializer
+    queryset = Supplier.objects.all()
+    serializer_class = SupplierSerializer
     filter_backends = (
         filters.SearchFilter,
     )
@@ -45,17 +45,17 @@ class SuppilerMV(OptionalPaginationMixin, viewsets.ModelViewSet):
         (HasModelPermission)
     ]
     model_permissions = {
-        "GET": ["app.view_suppiler"],
-        "POST": ["app.add_suppiler"],
-        "PATCH": ["app.change_suppiler"],
-        "PUT": ["app.change_suppiler"],
-        "DELETE": ["app.delete_suppiler"],
+        "GET": ["app.view_Supplier"],
+        "POST": ["app.add_Supplier"],
+        "PATCH": ["app.change_Supplier"],
+        "PUT": ["app.change_Supplier"],
+        "DELETE": ["app.delete_Supplier"],
     }
 
     @extend_schema(
         tags=["Inventory"],
         operation_id='Listar Proveedores',
-        description="""Ruta para listar proveedores. Debe tener el permiso: `view_suppiler` o ser administrador.""",
+        description="""Ruta para listar proveedores. Debe tener el permiso: `view_Supplier` o ser administrador.""",
         parameters=[
             OpenApiParameter(
                 name="no_pagination",
@@ -72,7 +72,7 @@ class SuppilerMV(OptionalPaginationMixin, viewsets.ModelViewSet):
     @extend_schema(
         tags=["Inventory"],
         operation_id='Consultar un proveedor',
-        description="""Ruta para consultar un proveedor. Debe tener el permiso: `view_suppiler` o ser administrador.""",
+        description="""Ruta para consultar un proveedor. Debe tener el permiso: `view_Supplier` o ser administrador.""",
 
     )
     def retrieve(self, request, *args, **kwargs):
@@ -81,7 +81,7 @@ class SuppilerMV(OptionalPaginationMixin, viewsets.ModelViewSet):
     @extend_schema(
         tags=["Inventory"],
         operation_id='Crear "Proveedores"',
-        description="""Ruta para crear Proveedores. Debe tener el permiso: `add_suppiler` o ser administrador.""",
+        description="""Ruta para crear Proveedores. Debe tener el permiso: `add_Supplier` o ser administrador.""",
     )
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
@@ -89,7 +89,7 @@ class SuppilerMV(OptionalPaginationMixin, viewsets.ModelViewSet):
     @extend_schema(
         tags=["Inventory"],
         operation_id='Actualizar Proveedor',
-        description="""Ruta para actualizar un proveedor. Debe tener el permiso: `change_suppiler` o ser administrador.""",
+        description="""Ruta para actualizar un proveedor. Debe tener el permiso: `change_Supplier` o ser administrador.""",
     )
     def update(self, request, *args, **kwargs):
         return super().update(request, *args, **kwargs)
@@ -97,7 +97,7 @@ class SuppilerMV(OptionalPaginationMixin, viewsets.ModelViewSet):
     @extend_schema(
         tags=["Inventory"],
         operation_id='Modificar Proveedor',
-        description="""Ruta para modificar parcialmente un proveedor. Debe tener el permiso: `change_suppiler` o ser administrador.""",
+        description="""Ruta para modificar parcialmente un proveedor. Debe tener el permiso: `change_Supplier` o ser administrador.""",
     )
     def partial_update(self, request, *args, **kwargs):
         return super().update(request, *args, **kwargs)

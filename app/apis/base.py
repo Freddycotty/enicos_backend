@@ -103,6 +103,7 @@ class CurrencyRateLC(OptionalPaginationMixin, generics.ListCreateAPIView):
     @extend_schema(
         tags=["Base"],
         operation_id='Crear tasa diaria del sistema',
+        description="""Ruta para crear la tasa del dolar""",
         request=inline_serializer(
             name='Currency rate create',
             fields={

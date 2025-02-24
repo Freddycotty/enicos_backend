@@ -15,6 +15,7 @@ class Sales(BaseModel):
     )
     currency_rate = models.ForeignKey(
         CurrencyRate,
+        null=True,
         on_delete=models.CASCADE,
         verbose_name='Currency Rate',
         help_text='Currency Rate'

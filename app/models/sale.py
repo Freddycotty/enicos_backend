@@ -3,6 +3,7 @@ from app.models.user import User
 from app.models.client import Client
 from app.models.base import BaseModel
 from app.models.product import ProductValue
+from app.models.inventory import Inventory
 
 
 class Sales(models.Model):
@@ -36,14 +37,23 @@ class SaleDetail(BaseModel):
         Sales,
         on_delete=models.CASCADE,
         verbose_name='Venta',
-        help_text='Venta asociada'
+        help_text='Venta asociada',
+        related_name='sale_details'
     )
     product_value = models.ForeignKey(
         ProductValue,
         on_delete=models.CASCADE,
         verbose_name='Valor del Producto',
-        help_text='Valor del producto en el momento de la venta'
-    ) 
+        help_text='Valor del producto en el momento de la venta',
+        related_name='sale_details'
+    )
+    inventory = models.ForeignKey(
+        Inventory,
+        on_delete=models.CASCADE,
+        verbose_name='Valor del Producto',
+        help_text='Valor del producto en el momento de la venta',
+        related_name='sale_details'
+    )
     quantity = models.PositiveIntegerField(
         verbose_name='Cantidad',
         help_text='Cantidad de productos vendidos'

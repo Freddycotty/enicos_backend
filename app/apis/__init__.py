@@ -9,9 +9,12 @@ from app.apis.category import (
     CategoryRUD,
     CategoryLC,
 )
-from app.apis.supplier import (
-    SupplierMV,
-)
 from app.apis.product import (
     ProductLC,
+)
+from app.apis.inventory import (
+    SupplierMV, 
+    InventoryLC,
+    InventoryRUD,
+    TransactionTypeInventoryL,
 )

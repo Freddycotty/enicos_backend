@@ -1,6 +1,9 @@
 from rest_framework import serializers
-from app.models.inventory import Inventory
-from app.models import Supplier
+from app.models.inventory import (
+    Supplier,
+    Inventory,
+    TransactionTypeInventory,
+)
 
 
 class SupplierSerializer(serializers.ModelSerializer):
@@ -26,4 +29,13 @@ class InventorySerializer(serializers.ModelSerializer):
             'transaction_type',
             'supplier',
             'user'
+        ]
+
+class TransactionTypeInventorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TransactionTypeInventory
+        fields = [
+            'id',
+            'name',
+            'is_active'
         ]

@@ -83,12 +83,6 @@ class Inventory(BaseModel):
         verbose_name='Proveedor',
         related_name='products'
     )
-    product_value = models.ForeignKey(
-        ProductValue,
-        on_delete=models.CASCADE,
-        verbose_name='Valor del Producto',
-        help_text='Valor del producto relacionado'
-    )
     transaction_detail = models.CharField(
         max_length=255,
         blank=True,

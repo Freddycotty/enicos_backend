@@ -35,7 +35,7 @@ class Product(BaseModel):
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
         ordering = ['name']
-        
+
     @property
     def current_value(self):
         value = self.values.order_by('created_at').last()

@@ -20,8 +20,9 @@ from app.models.sale import (
     SaleDetail,
 )
 from app.models.inventory import (
-    Inventory,
     Supplier,
+    Inventory,
+    TransactionTypeInventory,
 )
 from app.models.base import (
     IdentificationType,

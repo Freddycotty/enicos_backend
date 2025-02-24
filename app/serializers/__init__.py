@@ -22,8 +22,9 @@ from app.serializers.sale import (
 
 from app.serializers.inventory import (
     InventorySerializer,
-    SupplierSerializer
-    )
+    SupplierSerializer,
+    TransactionTypeInventorySerializer,
+)
 from app.serializers.base import (
     IdentificationTypeSerializer
 )

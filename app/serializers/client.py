@@ -7,8 +7,14 @@ class ClientSerializer(serializers.ModelSerializer):
         fields=(
             'id',
             'name',
+            'lastname',
             'identification',
+            'identification_type',
             'address',
             'phone',
             'email'
         )
+        extra_kwargs = {
+            'identification': {'validators': []},
+            'email': {'validators': []},
+        }

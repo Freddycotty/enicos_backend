@@ -22,24 +22,20 @@ class Product(BaseModel):
         related_name='products',
         limit_choices_to={'parent__isnull': False}
     )
-    created_at = models.DateTimeField(
-        verbose_name='Fecha de creación',
-        auto_now_add=True
-    )
-    updated_at = models.DateTimeField(
-        verbose_name='Fecha de actualización', 
-        auto_now=True
-    )
+
 
     class Meta:
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
         ordering = ['name']
+        db_table = 'products'
+        unique_together = ['name', 'subcategory']
 
     @property
     def current_value(self):
         value = self.values.order_by('created_at').last()
         data = {
+            'id': value.pk,
             'price': value.price,
             'cost': value.cost
         } if value else None

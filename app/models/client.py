@@ -51,7 +51,6 @@ class Client(BaseModel):
         blank=False,
         help_text='Correo electronico',
     )
-    is_active = models.BooleanField(default=True)
     
     class Meta:
         verbose_name = 'client'

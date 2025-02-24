@@ -106,3 +106,4 @@ class CurrencyRate(models.Model):
         verbose_name = 'currency rate'
         verbose_name_plural = 'currency rate'
         db_table = 'currency_rate'
+        unique_together = ('currency', 'date')

@@ -29,6 +29,8 @@ from drf_spectacular.utils import (
     OpenApiParameter,
 )
 
+
+# listar y crear productos en el inventario
 class InventoryLC(generics.ListCreateAPIView):
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
@@ -46,22 +48,25 @@ class InventoryLC(generics.ListCreateAPIView):
     @extend_schema(
         tags=["Inventory"],
         operation_id='Crear Inventario',
-        description="""Ruta para crear registros de inventario. Requiere permiso: `add_inventory` o ser administrador.""",
+        description="""Ruta para crear productos de inventario. Requiere permiso: `add_inventory` o ser administrador.""",
     )
     def post(self, request, *args, **kwargs):
-        request.data["user"] = request.user.pk
+        request.data["created_by"] = request.user.pk
         return super().post(request, *args, **kwargs)
 
     @extend_schema(
         tags=["Inventory"],
         operation_id='Consultar Inventario',
-        description="""Ruta para listar registros de inventario. Requiere permiso: `view_inventory` o ser administrador.""",
+        description="""Ruta para listar productos de inventario. Requiere permiso: `view_inventory` o ser administrador.""",
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
 
+# actualizar y eliminar un registro de inventario
 class InventoryRUD(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = 'id'
+    lookup_url_kwarg = 'id'
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
     permission_classes = [
@@ -70,8 +75,18 @@ class InventoryRUD(generics.RetrieveUpdateDestroyAPIView):
     model_permissions = {
         "GET": ["app.view_inventory"],
         "PUT": ["app.change_inventory"],
+        "PATCH": ["app.change_inventory"],
         "DELETE": ["app.delete_inventory"],
     }
+
+    @extend_schema(
+        tags=["Inventory"],
+        operation_id='Consultar Inventario',
+        description="""Ruta para consultar un registro de inventari`o`. Requiere permiso: `view_inventory` o ser administrador.""",
+    )
+
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
     @extend_schema(
         tags=["Inventory"],
@@ -80,6 +95,15 @@ class InventoryRUD(generics.RetrieveUpdateDestroyAPIView):
     )
     def put(self, request, *args, **kwargs):
         return super().put(request, *args, **kwargs)
+
+    @extend_schema(
+        tags=["Inventory"],
+        operation_id='Modificar Inventario',
+        description="""Ruta para modificar parcialmente un registro de inventario. Requiere permiso: `change_inventory` o ser administrador.""",
+    )
+    def patch(self, request, *args, **kwargs):
+        return super().patch(request, *args, **kwargs)
+
 
     @extend_schema(
         tags=["Inventory"],
@@ -92,8 +116,8 @@ class InventoryRUD(generics.RetrieveUpdateDestroyAPIView):
 
 # listar, consultar, crear, editar y eliminar un proveedor
 class SupplierMV(OptionalPaginationMixin, viewsets.ModelViewSet):
-    lookup_field = 'uid'
-    lookup_url_kwarg = 'uid'
+    lookup_field = 'id'
+    lookup_url_kwarg = 'id'
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
     filter_backends = (
@@ -110,17 +134,17 @@ class SupplierMV(OptionalPaginationMixin, viewsets.ModelViewSet):
         (HasModelPermission)
     ]
     model_permissions = {
-        "GET": ["app.view_Supplier"],
-        "POST": ["app.add_Supplier"],
-        "PATCH": ["app.change_Supplier"],
-        "PUT": ["app.change_Supplier"],
-        "DELETE": ["app.delete_Supplier"],
+        "GET": ["app.view_supplier"],
+        "POST": ["app.add_supplier"],
+        "PATCH": ["app.change_supplier"],
+        "PUT": ["app.change_supplier"],
+        "DELETE": ["app.delete_supplier"],
     }
 
     @extend_schema(
         tags=["Inventory"],
         operation_id='Listar Proveedores',
-        description="""Ruta para listar proveedores. Debe tener el permiso: `view_Supplier` o ser administrador.""",
+        description="""Ruta para listar proveedores. Debe tener el permiso: `view_supplier` o ser administrador.""",
         parameters=[
             OpenApiParameter(
                 name="no_pagination",
@@ -137,7 +161,7 @@ class SupplierMV(OptionalPaginationMixin, viewsets.ModelViewSet):
     @extend_schema(
         tags=["Inventory"],
         operation_id='Consultar un proveedor',
-        description="""Ruta para consultar un proveedor. Debe tener el permiso: `view_Supplier` o ser administrador.""",
+        description="""Ruta para consultar un proveedor. Debe tener el permiso: `view_supplier` o ser administrador.""",
 
     )
     def retrieve(self, request, *args, **kwargs):
@@ -146,7 +170,7 @@ class SupplierMV(OptionalPaginationMixin, viewsets.ModelViewSet):
     @extend_schema(
         tags=["Inventory"],
         operation_id='Crear "Proveedores"',
-        description="""Ruta para crear Proveedores. Debe tener el permiso: `add_Supplier` o ser administrador.""",
+        description="""Ruta para crear Proveedores. Debe tener el permiso: `add_supplier` o ser administrador.""",
     )
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
@@ -154,7 +178,7 @@ class SupplierMV(OptionalPaginationMixin, viewsets.ModelViewSet):
     @extend_schema(
         tags=["Inventory"],
         operation_id='Actualizar Proveedor',
-        description="""Ruta para actualizar un proveedor. Debe tener el permiso: `change_Supplier` o ser administrador.""",
+        description="""Ruta para actualizar un proveedor. Debe tener el permiso: `change_supplier` o ser administrador.""",
     )
     def update(self, request, *args, **kwargs):
         return super().update(request, *args, **kwargs)
@@ -162,7 +186,7 @@ class SupplierMV(OptionalPaginationMixin, viewsets.ModelViewSet):
     @extend_schema(
         tags=["Inventory"],
         operation_id='Modificar Proveedor',
-        description="""Ruta para modificar parcialmente un proveedor. Debe tener el permiso: `change_Supplier` o ser administrador.""",
+        description="""Ruta para modificar parcialmente un proveedor. Debe tener el permiso: `change_supplier` o ser administrador.""",
     )
     def partial_update(self, request, *args, **kwargs):
         return super().update(request, *args, **kwargs)
@@ -172,11 +196,14 @@ class SupplierMV(OptionalPaginationMixin, viewsets.ModelViewSet):
         return Response(status=405)
 
 
+# listar los tipos de transacciones de inventario
 class TransactionTypeInventoryL(generics.ListAPIView):
     queryset = TransactionTypeInventory.objects.all()
     serializer_class = TransactionTypeInventorySerializer
     permission_classes = [
-        permissions.IsAdminUser | HasModelPermission
+        permissions.IsAdminUser
+        |
+        (HasModelPermission)
     ]
     model_permissions = {
         "GET": ["app.view_transactiontypeinventory"],
@@ -184,8 +211,8 @@ class TransactionTypeInventoryL(generics.ListAPIView):
 
     @extend_schema(
         tags=["Inventory"],
-        operation="Listar Tipos de Transacciones de Inventario",
-        description="Ruta para listar los tipos de transacciones de inventario. Requiere permiso: `view_transactiontypeinventory` o ser administrador.",
+        operation_id='Listar Tipos de Transacciones de Inventario',
+        description="""Ruta para listar los tipos de transacciones de inventario. Requiere permiso: `view_transactiontypeinventory` o ser administrador.""",
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)

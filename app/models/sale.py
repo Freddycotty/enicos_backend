@@ -1,35 +1,35 @@
+from django.utils.translation import gettext_lazy as _
 from django.db import models
-from app.models.user import User
 from app.models.client import Client
-from app.models.base import BaseModel
+from app.models.base import BaseModel, CurrencyRate
 from app.models.product import ProductValue
 from app.models.inventory import Inventory
 
 
-class Sales(models.Model):
+class Sales(BaseModel):
     client = models.ForeignKey(
         Client,
         on_delete=models.CASCADE,
         verbose_name='Cliente',
         help_text='Cliente asociado a la venta'
     )
-    date = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Fecha',
-        help_text='Fecha de la venta'
-    )
-    seller = models.ForeignKey(
-        User,
+    currency_rate = models.ForeignKey(
+        CurrencyRate,
         on_delete=models.CASCADE,
-        verbose_name='Vendedor',
-        help_text='Usuario que realizó la venta'
+        verbose_name='Currency Rate',
+        help_text='Currency Rate'
     )
+
 
     class Meta:
         verbose_name = 'Venta'
         verbose_name_plural = 'Ventas'
         db_table = 'sales'
-        ordering = ('-date',)
+        ordering = ('-created_at',)
+        permissions = (
+            ('list_sales', _('Can list Sales')),
+        )
+
 
 
 class SaleDetail(BaseModel):

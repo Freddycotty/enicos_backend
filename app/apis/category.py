@@ -13,7 +13,6 @@ from app.permissions import HasModelPermission
 from django_filters.rest_framework import (
     DjangoFilterBackend,
 )
-
 from drf_spectacular.utils import (
     extend_schema,
     OpenApiParameter,
@@ -27,7 +26,7 @@ from app.filters.category import (
 )
 
 
-# ruta para listar y crear categorias y subcategorias
+# listar y crear categorias y subcategorias
 class CategoryLC(OptionalPaginationMixin, generics.ListCreateAPIView):
     queryset = Category.objects.filter(is_active=True)
     serializer_class = CategorySerializer
@@ -48,7 +47,6 @@ class CategoryLC(OptionalPaginationMixin, generics.ListCreateAPIView):
         "GET": ["app.view_category"],
         "POST": ["app.add_category"],
     }
-
 
     @extend_schema(
         tags=["Category"],
@@ -79,6 +77,7 @@ class CategoryLC(OptionalPaginationMixin, generics.ListCreateAPIView):
         return super().get(request, *args, **kwargs)
 
 
+# Consultar, actualizar y eliminar categorias y subcategorias
 class CategoryRUD(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -104,6 +103,7 @@ class CategoryRUD(generics.RetrieveUpdateDestroyAPIView):
     def patch(self, request, *args, **kwargs):
         return super().patch(request, *args, **kwargs)
 
+    @extend_schema(exclude=True)
     def put(self, request, *args, **kwargs):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 

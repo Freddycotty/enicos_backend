@@ -3,6 +3,7 @@ from app.models.product import ProductValue
 from app.models.user import User
 from app.models.base import BaseModel
 
+
 class Supplier(models.Model):
     name = models.CharField(
         max_length=255,
@@ -50,11 +51,6 @@ class TransactionTypeInventory(models.Model):
         
 
 class Inventory(BaseModel):
-    STATUS_CHOICES = [
-        ('P', 'Pendiente'),
-        ('C', 'Completado'),
-        ('X', 'Cancelado'),
-    ]
     product_value = models.ForeignKey(
         ProductValue,
         on_delete=models.CASCADE,
@@ -71,11 +67,11 @@ class Inventory(BaseModel):
         verbose_name='Cantidad',
         help_text='Cantidad de productos'
     )
-    status = models.CharField(
+    status = models.BooleanField(
         max_length=1,
-        choices=STATUS_CHOICES,
+        default=True,
         verbose_name='Estado',
-        help_text='Estado de la transacción'
+        help_text='Estado de la transacción',
     )
     supplier = models.ForeignKey(
         Supplier,
@@ -88,12 +84,6 @@ class Inventory(BaseModel):
         blank=True,
         verbose_name='Detalles de la transaccion',
         help_text='Referencia o número de la transacción'
-    )
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        verbose_name='Usuario',
-        help_text='Usuario que realizó la transacción'
     )
 
     class Meta:

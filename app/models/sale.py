@@ -1,5 +1,12 @@
 from django.utils.translation import gettext_lazy as _
 from django.db import models
+from decimal import Decimal
+import datetime
+from django.db.models import (
+    F,
+    Sum,
+    DecimalField
+)
 from app.models.client import Client
 from app.models.base import BaseModel, CurrencyRate
 from app.models.product import ProductValue
@@ -31,6 +38,45 @@ class Sales(BaseModel):
             ('list_sales', _('Can list Sales')),
         )
 
+    @property
+    def debt(self):
+        total = self.sale_details.aggregate(
+            total=Sum(F('product_value__price') * F('quantity'), output_field=DecimalField())
+        )['total'] or 0
+
+        subtotal = total / Decimal("1.16")  # Asumiendo que el total ya incluye el IVA
+        iva = total - subtotal
+
+        return {
+            'subtotal': round(subtotal, 2),
+            'iva': round(iva, 2),
+            'total': round(total, 2)
+        }
+
+    @property
+    def debt_bs(self):
+        data = {
+            "subtotal": None,
+            "iva": None,
+            "total": None
+        }
+
+        # Usar la tasa de cambio asignada en la venta si existe
+        currency_rate = self.currency_rate
+
+        # Si no hay tasa asignada, obtener la última disponible del día actual
+        if not currency_rate:
+            currency_rate = CurrencyRate.objects.filter(date=datetime.date.today()).first()
+
+
+        if currency_rate:
+            debt = self.debt
+
+            data['subtotal'] = debt['subtotal'] * currency_rate.amount 
+            data['iva'] = debt['iva'] * currency_rate.amount 
+            data['total'] = debt['total'] * currency_rate.amount 
+        return data
+    
 
 
 class SaleDetail(BaseModel):

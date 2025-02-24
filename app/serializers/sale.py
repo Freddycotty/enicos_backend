@@ -1,8 +1,10 @@
 from rest_framework import serializers
+import datetime
 from app.models import (
     Sales,
     Client,
     SaleDetail,
+    CurrencyRate,
 )
 from app.serializers.base import (
     CurrencyRateSerializer,
@@ -18,7 +20,7 @@ from app.serializers.product import (
 class SalesSerializer(serializers.ModelSerializer):
     created_by_name = serializers.CharField(source='created_by.username', read_only=True)
     client_name = serializers.CharField(source='client.name', read_only=True)
-    currency_rate_amount = serializers.CharField(source='currency_rate.amount', read_only=True)
+    currency_rate_amount = serializers.SerializerMethodField()  # Nueva propiedad para la tasa
 
     class Meta:
         model = Sales
@@ -26,6 +28,8 @@ class SalesSerializer(serializers.ModelSerializer):
             'id',
             'client',
             'client_name',
+            'debt',
+            'debt_bs',
             'currency_rate',
             'currency_rate_amount',
             'created_by',
@@ -51,6 +55,10 @@ class SalesSerializer(serializers.ModelSerializer):
             self.fields['client'] = ClientSerializer()
             self.fields['currency_rate'] = CurrencyRateSerializer()
             self.fields['sale_details'] = SaleDetailSerializer(many=True, context={"retrieve": True})
+            
+            pop_fields = ['client_name']
+            for _field in pop_fields:
+                self.fields.pop(_field)
 
             
             
@@ -82,7 +90,14 @@ class SalesSerializer(serializers.ModelSerializer):
 
         return sale
 
+    def get_currency_rate_amount(self, obj):
+        currency_rate = obj.currency_rate
 
+        # Si no tiene tasa, obtener la última tasa disponible del día actual
+        if not currency_rate:
+            currency_rate = CurrencyRate.objects.filter(date=datetime.date.today()).first()
+
+        return currency_rate.amount if currency_rate else None  # Retorna None si no hay tasa
 
 class SaleDetailSerializer(serializers.ModelSerializer):
     created_by_name = serializers.CharField(source='created_by.username', read_only=True)
@@ -112,8 +127,8 @@ class SaleDetailSerializer(serializers.ModelSerializer):
         retrieve = self.context.get('retrieve')
         
         if create_sale:
-            read_only_fields = ['sale']
-            for _field in read_only_fields:
+            pop_fields = ['sale']
+            for _field in pop_fields:
                 self.fields.pop(_field)
 
         if retrieve:

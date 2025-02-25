@@ -5,7 +5,10 @@ from app.models.client import (
     Client
 )
 from app.models.payment import (
-    PaymentMethod
+    PaymentMethod,
+    Payment, 
+    Bank, 
+    PaymentSaleDetail
 )
 from app.models.category import (
     Category

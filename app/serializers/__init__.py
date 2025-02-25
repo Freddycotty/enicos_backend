@@ -6,7 +6,10 @@ from app.serializers.client import (
     ClientSerializer
 )
 from app.serializers.payment import (
-    PaymentMethodSerializer
+    PaymentMethodSerializer,
+    BankSerializer,
+    PaymentSerializer,
+    PaymentSaleDetailSerializer
 )
 from app.serializers.category import (
     CategorySerializer
